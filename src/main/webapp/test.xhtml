@@ -1,21 +1,58 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="jakarta.faces.facelets"
       xmlns:f="jakarta.faces.core"
       xmlns:h="jakarta.faces.html"
       xmlns:p="primefaces">
 
-    <h:head>
-        <title>PrimeFaces Test</title>
-        <h:outputScript name="test.js" />
-        <h:outputStylesheet name="test.css" />
-    </h:head>
-    <h:body>
+<h:head>
+    <title>PrimeFaces Test</title>
+    <h:outputScript name="test.js"/>
+    <h:outputStylesheet name="test.css"/>
+</h:head>
+<h:body>
 
-        <h1>#{testView.string}</h1>
-        <h:form id="frmTest">
+    <h1>#{testView.string}</h1>
+    <h:form id="frmTest">
 
-        </h:form>
+        <h1>single</h1>
 
-    </h:body>
+        <p:galleria id="single" value="#{testView.list[0].images}" var="image" numVisible="1"
+                    fullScreen="true" showItemNavigators="true"
+                    widgetVar="single_#{testView.list[0].id}">
+            <p:graphicImage value="#{image}"/>
+        </p:galleria>
+        <h:panelGroup layout="block">
+            <p:graphicImage value="#{testView.list[0].images[0]}" onclick="PF('single_#{testView.list[0].id}').show();"/>
+        </h:panelGroup>
+
+
+        <h1>within accordion</h1>
+
+        <p:accordionPanel id="myacc" var="item" value="#{testView.list}">
+            <p:tab>
+                <f:facet name="title">
+                    <h:outputText value="#{item.name}"/>
+                </f:facet>
+
+                <p:panelGrid columns="3" layout="tabular">
+                    <p:column>
+                        <p:galleria id="images" value="#{item.images}" var="image" numVisible="1"
+                                    fullScreen="true" showItemNavigators="true"
+                                    widgetVar="images_#{item.id}">
+                            <p:graphicImage value="#{image}"/>
+                        </p:galleria>
+                        <h:panelGroup layout="block">
+                            <p:graphicImage value="#{item.images[0]}" onclick="PF('images_#{item.id}').show();"/>
+                        </h:panelGroup>
+                    </p:column>
+                    <p:column>
+                        <h:outputText escape="false" value="#{item.artist}"/>
+                    </p:column>
+                </p:panelGrid>
+            </p:tab>
+        </p:accordionPanel>
+
+    </h:form>
+
+</h:body>
 </html>
